@@ -34,6 +34,9 @@
 #define SRC_ETHER_ADDR "00:04:23:c5:d7:8e"
 #define DST_ETHER_ADDR "00:11:43:d6:d6:18"
 
+#define READ_TYPE 0x4e
+#define REFERENCE_TYPE 0x4f
+
 #define INTERFACE_1 "eth0"
 #define INTERFACE_2 "eth1"
 #define INTERFACE_3 "eth2"
@@ -60,6 +63,7 @@ struct frame {
     u_char  ether_shost[ETHER_ADDR_LEN];    /* source host address */
     u_short ether_type;                     /* IP? ARP? RARP? etc */
     u_char type ;	// 0x4e - packet type for content based routing
+
     uint16_t len ;
     unsigned char buf[7] ;
 };

@@ -1,4 +1,4 @@
-all: hasher router
+all: hasher router indexer
 
 hasher: hasher.o
 	g++ -o hasher hasher.o -D_REETRANT -lpthread -lpcap
@@ -12,5 +12,11 @@ router: router.o
 router.o: router.cc
 	g++ -c -g router.cc -D_REETRANT -lpthread -lpcap
 
+indexer: indexer_reader.o
+	g++ -o indexer indexer_reader.o -D_REETRANT -lpthread -lpcap
+
+indexer_reader.o: indexer_reader.cc
+	g++ -c -g indexer_reader.cc -D_REETRANT -lpthread -lpcap
+
 clean:
-	rm -rf *.o hasher router
+	rm -rf *.o hasher router indexer
