@@ -1,6 +1,6 @@
 #include "headers.h"
 
-int sock[4] ;
+int *sock ;
 int BindRawSocketToInterface(char *device, int rawsock, int protocol)
 {
 
@@ -40,7 +40,7 @@ void CreateEthernetHeader(struct frame *header, char *src_mac, char *dst_mac, in
     //ethernet_header = (struct sniff_ethernet *)malloc(sizeof(struct sniff_ethernet));
 
     /* copy the Src mac addr */
-    memcpy(header->ether_shost, (void *)ether_aton(src_mac), 6);
+//    memcpy(header->ether_shost, (void *)ether_aton(src_mac), 6);
 
     /* copy the Dst mac addr */
     memcpy(header->ether_dhost, (void *)ether_aton(dst_mac), 6);
@@ -49,12 +49,11 @@ void CreateEthernetHeader(struct frame *header, char *src_mac, char *dst_mac, in
     header->ether_type = htons(protocol);
 }
 
-
-
 int main(int argc, char **argv){
     FILE *fp ;
+    sock = (int *)malloc(NUM_HASHERS * sizeof(int)) ;
 
-    for(int i = 0 ; i < 4 ; ++i){
+    for(int i = 0 ; i < NUM_HASHERS ; ++i){
 	sock[i] = socket(PF_PACKET, SOCK_RAW, htons(ETH_P_ALL));
 	if (sock[i] == -1) { 
 	    printf("when opening socket in PAListener");
