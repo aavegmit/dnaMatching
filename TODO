@@ -1,1 +1,14 @@
 Make a NS file
+
+
+Router recieves a packet
+It may contain either a read query or a reference (7 bytes)
+type - 1 byte
+type = 0x4f => Reference Query
+       0x4e => Read Query
+
+Reference Query
+---------------
+
+type | Reference sub sequence | Ref offset | Ref ID
+

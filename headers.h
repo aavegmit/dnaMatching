@@ -52,6 +52,10 @@
 #define NODE2_ETHER "00:04:23:c7:a6:78"
 #define NODE3_ETHER "00:04:23:c7:a6:52"
 
+#define NUM_HASHERS 4
+#define TYPE_READ 0x4e
+#define TYPE_REF  0x4f
+
 struct sniff_ethernet {
     u_char  ether_dhost[ETHER_ADDR_LEN];    /* destination host address */
     u_char  ether_shost[ETHER_ADDR_LEN];    /* source host address */
@@ -67,5 +71,15 @@ struct frame {
     uint16_t len ;
     unsigned char buf[7] ;
 };
+
+struct content_ref {
+    unsigned char subseq[7] ;
+} ;
+
+struct content_read {
+    unsigned char subseq[7] ;
+    unsigned char read[13] ;
+} ;
+
 void *sniffer(void *) ;
 #endif
