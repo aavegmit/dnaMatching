@@ -12,11 +12,14 @@ router: router.o
 router.o: router.cc
 	g++ -c -g router.cc -D_REETRANT -lpthread -lpcap
 
-indexer: indexer_reader.o
-	g++ -o indexer indexer_reader.o -D_REETRANT -lpthread -lpcap
+indexer: indexer_reader.o indexer_parser.o
+	g++ -o indexer indexer_reader.o indexer_parser.o -D_REETRANT -lpthread -lpcap
 
 indexer_reader.o: indexer_reader.cc
 	g++ -c -g indexer_reader.cc -D_REETRANT -lpthread -lpcap
+
+indexer_parser.o: indexer_parser.cc
+	g++ -c -g indexer_parser.cc -D_REETRANT -lpthread -lpcap
 
 clean:
 	rm -rf *.o hasher router indexer

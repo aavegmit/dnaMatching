@@ -28,14 +28,13 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <sys/mman.h>
+#include <bitset>
+#include <map>
 
 #define FRAME_LEN 54
 #define FILE_SIZE 1024
 #define SRC_ETHER_ADDR "00:04:23:c5:d7:8e"
 #define DST_ETHER_ADDR "00:11:43:d6:d6:18"
-
-#define READ_TYPE 0x4e
-#define REFERENCE_TYPE 0x4f
 
 #define INTERFACE_1 "eth0"
 #define INTERFACE_2 "eth1"
@@ -55,6 +54,9 @@
 #define NUM_HASHERS 4
 #define TYPE_READ 0x4e
 #define TYPE_REF  0x4f
+#define SUBSEQ_SIZE 64
+
+using namespace std;
 
 struct sniff_ethernet {
     u_char  ether_dhost[ETHER_ADDR_LEN];    /* destination host address */
@@ -68,17 +70,21 @@ struct frame {
     u_short ether_type;                     /* IP? ARP? RARP? etc */
     u_char type ;	// 0x4e - packet type for content based routing
 
-    uint16_t len ;
+//    uint16_t len ;
     unsigned char buf[7] ;
 };
 
 struct content_ref {
-    unsigned char subseq[7] ;
+    //unsigned char subseq[7] ;
+    bitset<SUBSEQ_SIZE> subseq;
+    uint32_t offset;
 } ;
 
 struct content_read {
-    unsigned char subseq[7] ;
-    unsigned char read[13] ;
+    //unsigned char subseq[7] ;
+    //unsigned char read[13] ;
+    bitset<SUBSEQ_SIZE> subseq;
+    bitset<104> read;
 } ;
 
 void *sniffer(void *) ;
