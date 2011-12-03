@@ -99,15 +99,12 @@ void *sniffer(void *arg){
     int length, tempsock ;
 
     unsigned char *header_buf ;
-    unsigned char *content_buf ;
 
-    int header_len = sizeof(struct frame);
     int packet_read_len = sizeof(struct content_read) ;
     int packet_ref_len = sizeof(struct content_ref) ;
+    int header_len = sizeof(struct frame)  + max(packet_read_len, packet_ref_len);
 
     header_buf = (unsigned char*)malloc(header_len); 
-    content_buf = (unsigned char *)malloc(packet_read_len) ;
-
 
     while(1){
 	length = read(sockfd, header_buf, header_len );
@@ -120,21 +117,11 @@ void *sniffer(void *arg){
 	header = (struct frame *)(header_buf);
 
 	if(header->type == TYPE_REF){
-	    while(1){
-		length = read(sockfd, content_buf, packet_ref_len );
-
-		if(length == packet_ref_len)
-		    break ;
-	    }
-	    subseq = ((struct content_ref *)(content_buf))->subseq;
+	    subseq = ((struct content_ref *)(&header_buf[sizeof(struct frame)]))->subseq;
+	    length = sizeof(struct frame) + packet_ref_len ;
 	} else if(header->type == TYPE_READ){
-	    while(1){
-		length = read(sockfd, content_buf, packet_read_len );
-
-		if(length == packet_read_len)
-		    break ;
-	    }
-	    subseq = ((struct content_read *)(content_buf))->subseq;
+	    subseq = ((struct content_read *)(&header_buf[sizeof(struct frame)]))->subseq;
+	    length = sizeof(struct frame) + packet_read_len ;
 	}
 	else
 	    continue ;
@@ -146,7 +133,7 @@ void *sniffer(void *arg){
 
 	// 00 - representing A or N
 	if(!subseq[index] && !subseq[index-1]){
-	    printf("Starting with A or N %s\n", subseq.to_string()) ;
+	    printf("Starting with A or N\n") ;
 	    CreateEthernetHeader(header, INDEXER0_ETHER, ETH_P_ALL);
 	    tempsock = sock[0] ;
 	}
@@ -169,10 +156,7 @@ void *sniffer(void *arg){
 	    tempsock = sock[3] ;
 	}
 
-        if(write(tempsock,header,header_len) < 0){
-            perror("sendto");
-        }
-        if(write(tempsock,content_buf,length) < 0){
+        if(write(tempsock,header,length) < 0){
             perror("sendto");
         }
     }

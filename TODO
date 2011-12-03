@@ -1,6 +1,4 @@
-Make a NS file
-[T] Send the ref id as well
-
+[A] receive the src mac address as well
 
 Router recieves a packet
 It may contain either a read query or a reference (7 bytes)

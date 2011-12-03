@@ -1,7 +1,7 @@
 #include "hasher.h"
 
 int sock ;
-struct frame ref_header ;
+unsigned char *ref_buffer ;
 
 int BindRawSocketToInterface(char *device, int rawsock, int protocol)
 {
@@ -41,6 +41,7 @@ void CreateEthernetHeader(struct frame *header, char *dst_mac, int protocol)
 }
 
 void init_sender(char *interface){
+    struct frame ref_header ;
     sock = socket(PF_PACKET, SOCK_RAW, htons(ETH_P_ALL));
     if (sock == -1) { 
         printf("when opening socket in PAListener");
@@ -49,20 +50,19 @@ void init_sender(char *interface){
 
     ref_header.type = TYPE_REF ;
     CreateEthernetHeader(&ref_header, RTR_HASHER_ETHER, ETH_P_ALL);
+    ref_buffer = (unsigned char *)malloc(sizeof(ref_header) + sizeof(struct content_ref)) ;
+    memcpy(ref_buffer, &ref_header, sizeof(ref_header)) ;
 }
 
 void sendRefSeq(bitset<SUBSEQ_SIZE> bits, uint32_t offset){
-    // Send the header
-    if(write(sock,&ref_header,sizeof(ref_header)) < 0){
-	perror("sendto");
-    }
-
     struct content_ref content ;
     content.subseq = bits ;
     content.offset = offset ;
 
+    memcpy(&ref_buffer[sizeof(struct frame)], &content, sizeof(content)) ;
+
     // Send the content
-    if(write(sock,&content,sizeof(content)) < 0){
+    if(write(sock,ref_buffer,sizeof(struct frame) + sizeof(struct content_ref)) < 0){
 	perror("sendto");
     }
 }

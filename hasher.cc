@@ -33,7 +33,6 @@ bitset<SUBSEQ_SIZE> getBitString(string str){
   bitset<SUBSEQ_SIZE> bits(bitStream);
   if(len == 29)
       bits.set(MSB_SUBSEQ) ;
-  cout << bits.to_string() << endl << endl ;
 
   return bits;
 }
@@ -45,6 +44,7 @@ void generateSubSequence(string str, long offset){
       if(slides[i][j] == '1')
 	subStr += str[j];
     }
+    cout << subStr << endl ;
     sendRefSeq(getBitString(subStr), offset) ;
   }
 }
