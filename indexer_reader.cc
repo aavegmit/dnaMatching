@@ -1,4 +1,5 @@
 #include "headers.h"
+#include "indexer_header.h"
 
 int BindRawSocketToInterface(char *device, int rawsock, int protocol)
 {
@@ -79,9 +80,13 @@ int main(int argc, char **argv){
     //ethernet_header = (struct sniff_ethernet *)buffer ;
 	header = (struct frame *)(buffer);
 	//printf("type %02x len %d\n", header->type, header->len) ;
-	if(header->type != READ_TYPE || header->type != REFERENCE_TYPE)
+	if(header->type != TYPE_READ || header->type != TYPE_REF)
 	    continue ;
 
+    if(header->type == TYPE_READ)
+        parseReadPacket(buffer);
+    else
+        parseRefPacket(buffer);
 //	length = read(s, content, header->len);
 	/*for(int i = 0 ; i < header->len ; ++i)
 	    printf("%02x-", header->buf[i]) ;

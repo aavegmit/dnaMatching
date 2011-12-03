@@ -29,15 +29,12 @@
 #include <fcntl.h>
 #include <sys/mman.h>
 #include <bitset>
-
+#include <map>
 
 #define FRAME_LEN 54
 #define FILE_SIZE 1024
 #define RTR_HASHER_ETHER "00:15:17:1e:04:30"
 #define RTR_HASHER_INTERFACE "eth2"
-
-#define READ_TYPE 0x4e
-#define REFERENCE_TYPE 0x4f
 
 #define INTERFACE_0 "eth0"
 #define INTERFACE_1 "eth3"
@@ -55,7 +52,7 @@
 #define SUBSEQ_SIZE 64
 #define MSB_SUBSEQ 63
 
-using namespace std ;
+using namespace std;
 
 struct sniff_ethernet {
     u_char  ether_dhost[ETHER_ADDR_LEN];    /* destination host address */
