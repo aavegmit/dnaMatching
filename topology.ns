@@ -1,0 +1,28 @@
+set ns [new Simulator]
+source tb_compat.tcl
+
+# Nodes
+set hasher0 [$ns node]
+tb-set-node-os $hasher0 Ubuntu1004-STD
+
+set indexer0 [$ns node]
+tb-set-node-os $indexer0 Ubuntu1004-STD
+set indexer1 [$ns node]
+tb-set-node-os $indexer1 Ubuntu1004-STD
+set indexer2 [$ns node]
+tb-set-node-os $indexer2 Ubuntu1004-STD
+set indexer3 [$ns node]
+tb-set-node-os $indexer3 Ubuntu1004-STD
+
+set rtr0 [$ns node]
+tb-set-node-os $rtr0 Ubuntu1004-STD
+
+# Links
+set link0 [$ns duplex-link $hasher0 $rtr0 1Gb 0ms DropTail]
+
+set link4 [$ns duplex-link $indexer0 $rtr0 1Gb 0ms DropTail]
+set link1 [$ns duplex-link $indexer1 $rtr0 1Gb 0ms DropTail]
+set link2 [$ns duplex-link $indexer2 $rtr0 1Gb 0ms DropTail]
+set link3 [$ns duplex-link $indexer3 $rtr0 1Gb 0ms DropTail]
+
+$ns run

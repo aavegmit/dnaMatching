@@ -28,33 +28,34 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <sys/mman.h>
+#include <bitset>
+
 
 #define FRAME_LEN 54
 #define FILE_SIZE 1024
-#define SRC_ETHER_ADDR "00:04:23:c5:d7:8e"
-#define DST_ETHER_ADDR "00:11:43:d6:d6:18"
+#define RTR_HASHER_ETHER "00:15:17:1e:04:30"
+#define RTR_HASHER_INTERFACE "eth2"
 
 #define READ_TYPE 0x4e
 #define REFERENCE_TYPE 0x4f
 
-#define INTERFACE_1 "eth0"
-#define INTERFACE_2 "eth1"
-#define INTERFACE_3 "eth2"
-#define INTERFACE_4 "eth3"
+#define INTERFACE_0 "eth0"
+#define INTERFACE_1 "eth3"
+#define INTERFACE_2 "eth4"
+#define INTERFACE_3 "eth5"
 
-#define RTR_ETHER_1 "00:04:23:c7:a6:0e"
-#define RTR_ETHER_2 "00:04:23:c7:a6:0f"
-#define RTR_ETHER_3 "00:04:23:c7:a6:22"
-#define RTR_ETHER_4 "00:04:23:c7:a6:23"
+#define INDEXER0_ETHER "00:15:17:1e:03:46"
+#define INDEXER1_ETHER "00:16:36:ca:17:92"
+#define INDEXER2_ETHER "00:15:17:1e:05:2e"
+#define INDEXER3_ETHER "00:15:17:1e:03:3e"
 
-#define NODE0_ETHER "00:04:23:c7:a8:0a"
-#define NODE1_ETHER "00:04:23:c5:d4:70"
-#define NODE2_ETHER "00:04:23:c7:a6:78"
-#define NODE3_ETHER "00:04:23:c7:a6:52"
-
-#define NUM_HASHERS 4
+#define NUM_HASHERS 1
 #define TYPE_READ 0x4e
 #define TYPE_REF  0x4f
+#define SUBSEQ_SIZE 64
+#define MSB_SUBSEQ 63
+
+using namespace std ;
 
 struct sniff_ethernet {
     u_char  ether_dhost[ETHER_ADDR_LEN];    /* destination host address */
@@ -68,17 +69,18 @@ struct frame {
     u_short ether_type;                     /* IP? ARP? RARP? etc */
     u_char type ;	// 0x4e - packet type for content based routing
 
-    uint16_t len ;
-    unsigned char buf[7] ;
+//    uint16_t len ;
+//    unsigned char buf[7] ;
 };
 
 struct content_ref {
-    unsigned char subseq[7] ;
+    bitset<SUBSEQ_SIZE> subseq ;
+    uint32_t offset ;
 } ;
 
 struct content_read {
-    unsigned char subseq[7] ;
-    unsigned char read[13] ;
+    bitset<SUBSEQ_SIZE> subseq ;
+    bitset<104> read ;
 } ;
 
 void *sniffer(void *) ;

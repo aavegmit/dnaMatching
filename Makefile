@@ -1,10 +1,13 @@
 all: hasher router indexer
 
-hasher: hasher.o
-	g++ -o hasher hasher.o -D_REETRANT -lpthread -lpcap
+hasher: hasher.o hasher_sender.o
+	g++ -o hasher hasher.o hasher_sender.o -D_REETRANT -lpthread -lpcap
 
 hasher.o: hasher.cc
 	g++ -c -g hasher.cc -D_REETRANT -lpthread -lpcap
+
+hasher_sender.o: hasher_sender.cc
+	g++ -c -g hasher_sender.cc -D_REETRANT -lpthread -lpcap
 
 router: router.o
 	g++ -o router router.o -D_REETRANT -lpthread -lpcap

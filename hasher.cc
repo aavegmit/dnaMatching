@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
-#include <bitset>
 #include <string.h>
+#include "hasher.h"
 
 using namespace std;
 
@@ -17,8 +17,7 @@ string slides[] = {
 };
 
 // A 00 G 01 T 10 C 11
-string getBitString(string str){
-  cout << str << endl;
+bitset<SUBSEQ_SIZE> getBitString(string str){
   int len = str.length();
   string bitStream = "";
   for( int i=0; i<len; ++i){
@@ -31,9 +30,12 @@ string getBitString(string str){
     else if(str[i] == 'c'|| str[i] == 'C')
       bitStream += "11";
   }
-  cout << bitStream << endl;
-  bitset<58> bits(bitStream);
-  return bits.to_string();
+  bitset<SUBSEQ_SIZE> bits(bitStream);
+  if(len == 29)
+      bits.set(MSB_SUBSEQ) ;
+  cout << bits.to_string() << endl << endl ;
+
+  return bits;
 }
 
 void generateSubSequence(string str, long offset){
@@ -43,8 +45,7 @@ void generateSubSequence(string str, long offset){
       if(slides[i][j] == '1')
 	subStr += str[j];
     }
-    string s = getBitString(subStr);
-    cout << s << endl;
+    sendRefSeq(getBitString(subStr), offset) ;
   }
 }
 
@@ -67,11 +68,12 @@ void getReadFromFile(char *fileName){
 
 int main(int argc, char **argv){
   if(argc < 2){
-    cout << "Wrong input : <output.exe> <fileName>" << endl;
+    cout << "Wrong input : <fileName> <interface>" << endl;
     return 0;
   }
-  getReadFromFile(argv[1]);
+  init_sender(argv[2]) ;
 
+  getReadFromFile(argv[1]);
   return 0;
 }
 
