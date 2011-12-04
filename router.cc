@@ -90,6 +90,7 @@ int main(int argc, char **argv){
 void *sniffer(void *arg){
     int sockfd = (long)arg ;
     bitset<SUBSEQ_SIZE> subseq ;
+    int countA = 0, countG = 0, countT = 0, countC = 0 ;
 
     int index ;
     struct frame *header ;
@@ -133,31 +134,37 @@ void *sniffer(void *arg){
 
 	// 00 - representing A or N
 	if(!subseq[index] && !subseq[index-1]){
-	    printf("Starting with A or N\n") ;
+//	    printf("Starting with A or N\n") ;
 	    CreateEthernetHeader(header, INDEXER0_ETHER, ETH_P_ALL);
 	    tempsock = sock[0] ;
+	    ++countA ;
 	}
 	// 01 - representing G
 	else if(!subseq[index] && subseq[index-1]){
-	    printf("Starting with G\n") ;
+//	    printf("Starting with G\n") ;
 	    CreateEthernetHeader(header, INDEXER1_ETHER, ETH_P_ALL);
 	    tempsock = sock[1] ;
+	    ++countG ;
 	}
 	// 10 - representing T
 	else if(subseq[index] && !subseq[index-1]){
-	    printf("Starting with T\n") ;
+//	    printf("Starting with T\n") ;
 	    CreateEthernetHeader(header, INDEXER2_ETHER, ETH_P_ALL);
 	    tempsock = sock[2] ;
+	    ++countT ;
 	}
 	// 11 - representing C
 	else if(subseq[index] && subseq[index-1]){
-	    printf("Starting with C\n") ;
+//	    printf("Starting with C\n") ;
 	    CreateEthernetHeader(header, INDEXER3_ETHER, ETH_P_ALL);
 	    tempsock = sock[3] ;
+	    ++countC ;
 	}
 
         if(write(tempsock,header,length) < 0){
             perror("sendto");
         }
+	printf("A: %d, G: %d, T: %d, C: %d\r", countA, countG, countT, countC) ;
+	fflush(stdout) ;
     }
 } 
