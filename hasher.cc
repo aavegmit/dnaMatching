@@ -100,7 +100,7 @@ int readFile(char *fileName){
       memset(bufL, '\0', sizeof(bufL));
       fp.getline(bufL, 51);
       string tmp(bufL);
-      if(tmp.length() != 50){
+      if(tmp[0] == '>'){
         chrom = tmp;
         offset = fp.tellg();
         foffset = offset;
@@ -112,8 +112,9 @@ int readFile(char *fileName){
 	    //          cout << foffset << " " << str << " " << chrom << endl;
 	    generateSubSequence(str, offset, chrom) ;
 	continue;
-      }else{
-        fp.seekg(offset);
+      }else if(tmp[0] == 'c' || tmp[0] == 'C' || tmp[0] == 'G' || tmp[0] == 'g' ||
+                        tmp[0] == 'A' ||tmp[0] == 'a' ||tmp[0] == 'T' ||tmp[0] == 't' || tmp[0] == 'n' || tmp[0] == 'N' ){
+	fp.seekg(offset);
 	continue;
       }
     }
