@@ -161,7 +161,7 @@ void *sniffer(void *arg){
 	    ++countC ;
 	}
 
-        if(write(tempsock,header,length) < 0){
+        if(write(tempsock,header_buf,header_len) < 0){
             perror("sendto");
         }
 	printf("A: %d, G: %d, T: %d, C: %d\r", countA, countG, countT, countC) ;
