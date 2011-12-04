@@ -44,7 +44,7 @@ void generateSubSequence(string str, long offset, string refId){
       if(slides[i][j] == '1')
 	subStr += str[j];
     }
-    cout << subStr << endl ;
+//    cout << subStr << endl ;
     sendRefSeq(getBitString(subStr), offset, refId) ;
   }
 }
@@ -128,6 +128,9 @@ int main(int argc, char **argv){
     return 0;
   }
   init_sender(argv[2]) ;
+
+  //This loads FILE to MEMORY ARRAY...'fileMap'
+  loadFileToMMap((unsigned char *)argv[1]);
 
   readFile(argv[1]);
   return 0;
