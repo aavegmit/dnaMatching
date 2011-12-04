@@ -2,4 +2,4 @@
 
 void init_sender(char *) ;
 extern int sock ;
-void sendRefSeq(bitset<SUBSEQ_SIZE>, uint32_t) ;
+void sendRefSeq(bitset<SUBSEQ_SIZE>, uint32_t, string) ;

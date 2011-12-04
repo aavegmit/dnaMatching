@@ -73,6 +73,7 @@ struct frame {
 struct content_ref {
     bitset<SUBSEQ_SIZE> subseq ;
     uint32_t offset ;
+    char chr[6] ;
 } ;
 
 struct content_read {

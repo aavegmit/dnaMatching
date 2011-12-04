@@ -54,10 +54,11 @@ void init_sender(char *interface){
     memcpy(ref_buffer, &ref_header, sizeof(ref_header)) ;
 }
 
-void sendRefSeq(bitset<SUBSEQ_SIZE> bits, uint32_t offset){
+void sendRefSeq(bitset<SUBSEQ_SIZE> bits, uint32_t offset, string chrome){
     struct content_ref content ;
     content.subseq = bits ;
     content.offset = offset ;
+    strncpy(content.chr, chrome.c_str(), sizeof(content.chr)) ;
 
     memcpy(&ref_buffer[sizeof(struct frame)], &content, sizeof(content)) ;
 

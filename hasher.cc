@@ -37,7 +37,7 @@ bitset<SUBSEQ_SIZE> getBitString(string str){
   return bits;
 }
 
-void generateSubSequence(string str, long offset){
+void generateSubSequence(string str, long offset, string refId){
   for(int i=0; i<7; ++i){
     string subStr = "";
     for(int j=0; j<50; j++){
@@ -45,7 +45,7 @@ void generateSubSequence(string str, long offset){
 	subStr += str[j];
     }
     cout << subStr << endl ;
-    sendRefSeq(getBitString(subStr), offset) ;
+    sendRefSeq(getBitString(subStr), offset, refId) ;
   }
 }
 
@@ -61,7 +61,62 @@ void getReadFromFile(char *fileName){
     string str(buf);
     if(str.length() != 50)
       continue;
-    generateSubSequence(str, offset);    
+//    generateSubSequence(str, offset);    
+  }
+  fp.close();
+}
+
+// Instead of the 3 cout statements, make a function call
+// the function should take 3 parameters offset, 50 character string, string with >chrmX
+int readFile(char *fileName){
+  char buf[50], buf1[1], bufL[51];
+  long offset, foffset, lastEndLine;
+  fstream fp(fileName, ios::in);
+  memset(bufL, '\0', sizeof(bufL));
+  fp.getline(bufL, 51);
+  string chrom(bufL);
+  offset = fp.tellg();
+  memset(bufL, '\0', sizeof(bufL));
+  fp.read(bufL, 50);
+  foffset = offset;
+  string str(bufL);
+//  cout << foffset << " " << str << " " << chrom << endl;
+  generateSubSequence(str, offset, chrom) ;
+  while(!fp.eof()){
+    offset = fp.tellg();
+    fp.read(buf1, 1);
+    if(buf1[0] != '\n'){
+     offset = fp.tellg();
+     string str1(buf1);
+     str = str.substr(1) + str1;
+     foffset++;
+     if(foffset == lastEndLine)
+	 foffset++;
+     //     cout << foffset << " " << str << " " << chrom << endl;
+     generateSubSequence(str, offset, chrom) ;
+    }else{
+      lastEndLine = offset;
+      offset = fp.tellg();
+      memset(bufL, '\0', sizeof(bufL));
+      fp.getline(bufL, 51);
+      string tmp(bufL);
+      if(tmp.length() != 50){
+        chrom = tmp;
+        offset = fp.tellg();
+        foffset = offset;
+        memset(bufL, '\0', sizeof(bufL));
+        fp.read(bufL, 50);
+        string str2(bufL);
+        str = str2;
+        if(str.length() == 50)
+	    //          cout << foffset << " " << str << " " << chrom << endl;
+	    generateSubSequence(str, offset, chrom) ;
+	continue;
+      }else{
+        fp.seekg(offset);
+	continue;
+      }
+    }
   }
   fp.close();
 }
@@ -73,7 +128,7 @@ int main(int argc, char **argv){
   }
   init_sender(argv[2]) ;
 
-  getReadFromFile(argv[1]);
+  readFile(argv[1]);
   return 0;
 }
 
