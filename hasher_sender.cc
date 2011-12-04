@@ -55,6 +55,7 @@ void init_sender(char *interface){
 }
 
 void sendRefSeq(bitset<SUBSEQ_SIZE> bits, uint32_t offset, string chrome){
+    static int counter = 0;
     struct content_ref content ;
     content.subseq = bits ;
     content.offset = offset ;
@@ -66,5 +67,8 @@ void sendRefSeq(bitset<SUBSEQ_SIZE> bits, uint32_t offset, string chrome){
     if(write(sock,ref_buffer,sizeof(struct frame) + sizeof(struct content_ref)) < 0){
 	perror("sendto");
     }
+    counter++;
+    printf("Sent packets are: %d\r", counter);
+    fflush(stdout);
 }
 

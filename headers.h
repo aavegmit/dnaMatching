@@ -21,7 +21,7 @@
 #include <netinet/ip_icmp.h>
 #include <sys/ioctl.h>
 #include <net/if.h>
-#include<linux/if_packet.h>
+#include <linux/if_packet.h>
 #include <netinet/ether.h>
 #include <sys/mman.h>
 #include <netdb.h>
@@ -30,10 +30,11 @@
 #include <sys/mman.h>
 #include <bitset>
 #include <map>
+#include <sys/stat.h>
 
 #define FRAME_LEN 54
 #define FILE_SIZE 1024
-#define RTR_HASHER_ETHER "00:15:17:1e:04:30"
+#define RTR_HASHER_ETHER "00:15:17:1c:d7:64"
 #define RTR_HASHER_INTERFACE "eth2"
 
 #define INTERFACE_0 "eth0"
@@ -41,10 +42,10 @@
 #define INTERFACE_2 "eth4"
 #define INTERFACE_3 "eth5"
 
-#define INDEXER0_ETHER "00:15:17:1e:03:46"
-#define INDEXER1_ETHER "00:16:36:ca:17:92"
-#define INDEXER2_ETHER "00:15:17:1e:05:2e"
-#define INDEXER3_ETHER "00:15:17:1e:03:3e"
+#define INDEXER0_ETHER "00:15:17:1e:03:e6"
+#define INDEXER1_ETHER "00:16:36:eb:26:d3"
+#define INDEXER2_ETHER "00:15:17:1c:d9:60"
+#define INDEXER3_ETHER "00:15:17:1e:4e:2c"
 
 #define NUM_HASHERS 1
 #define TYPE_READ 0x4e

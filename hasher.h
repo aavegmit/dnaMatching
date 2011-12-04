@@ -1,4 +1,5 @@
 #include "headers.h"
+#include "fileIO.h"
 
 void init_sender(char *) ;
 extern int sock ;

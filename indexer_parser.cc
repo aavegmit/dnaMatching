@@ -19,6 +19,7 @@ void printIndexerMap_26(){
                 cout<<*it3<<" ";
             }
         }
+        cout<< endl;
     }
 }
 
@@ -34,6 +35,7 @@ void printIndexerMap_24(){
                 cout<<*it3<<" ";
             }
         }
+        cout<< endl;
     }
 }
 
@@ -70,6 +72,9 @@ void parseRefPacket(unsigned char *buffer){
 
     int header_length = sizeof(struct frame);
     struct content_ref *data = (struct content_ref *)(buffer+header_length); 
+    
+    //cout << "Data Recvd is: " << data->subseq.to_string() << endl;
+
 
     if(data->subseq.test(SUBSEQ_SIZE-1)){
         subseq_length = 58;
@@ -79,7 +84,6 @@ void parseRefPacket(unsigned char *buffer){
     for(int i = KEY_SIZE-1;i>=0;i--){
         key[i] = data->subseq[(subseq_length-1)-((KEY_SIZE-1)-i)];
     }
-    cout << "Key is: " << key.to_string() << endl;
 
     //int value_length = subseq_length - KEY_SIZE;
 
@@ -99,6 +103,6 @@ void parseRefPacket(unsigned char *buffer){
     else
         storeInIndexerMap_24(key, value_24 ,data->offset);
 
-    printIndexerMap_26();
-    printIndexerMap_24();
+    //printIndexerMap_26();
+    //printIndexerMap_24();
 }
