@@ -99,6 +99,6 @@ void parseRefPacket(unsigned char *buffer){
     else
         storeInIndexerMap_24(key, value_24 ,data->offset);
 
-    printIndexerMap_26();
-    printIndexerMap_24();
+//    printIndexerMap_26();
+//    printIndexerMap_24();
 }

@@ -46,6 +46,7 @@ void CreateEthernetHeader(struct frame *header, char *dst_mac, int protocol)
 
 int main(int argc, char **argv){
     FILE *fp ;
+    struct ifreq ethreq;
     sock = (int *)malloc(4 * sizeof(int)) ;
     hash_sock = (int *)malloc(NUM_HASHERS * sizeof(int)) ;
 
@@ -63,6 +64,27 @@ int main(int argc, char **argv){
 	    printf("when opening socket in PAListener");
 	}
     }
+
+    /* set to promiscuous mode */
+    strcpy(ethreq.ifr_name,INTERFACE_0);
+    ioctl(sock[0], SIOCGIFFLAGS, &ethreq);
+    ethreq.ifr_flags |= IFF_PROMISC;
+    ioctl(sock[0], SIOCSIFFLAGS, &ethreq);
+
+    strcpy(ethreq.ifr_name,INTERFACE_1);
+    ioctl(sock[1], SIOCGIFFLAGS, &ethreq);
+    ethreq.ifr_flags |= IFF_PROMISC;
+    ioctl(sock[1], SIOCSIFFLAGS, &ethreq);
+
+    strcpy(ethreq.ifr_name,INTERFACE_2);
+    ioctl(sock[2], SIOCGIFFLAGS, &ethreq);
+    ethreq.ifr_flags |= IFF_PROMISC;
+    ioctl(sock[2], SIOCSIFFLAGS, &ethreq);
+
+    strcpy(ethreq.ifr_name,INTERFACE_3);
+    ioctl(sock[3], SIOCGIFFLAGS, &ethreq);
+    ethreq.ifr_flags |= IFF_PROMISC;
+    ioctl(sock[3], SIOCSIFFLAGS, &ethreq);
 
     // Bind interfaces
     BindRawSocketToInterface(RTR_HASHER_INTERFACE, hash_sock[0], ETH_P_ALL);
@@ -161,7 +183,7 @@ void *sniffer(void *arg){
 	    ++countC ;
 	}
 
-        if(write(tempsock,header_buf,header_len) < 0){
+        if(write(tempsock,header_buf,length) < 0){
             perror("sendto");
         }
 	printf("A: %d, G: %d, T: %d, C: %d\r", countA, countG, countT, countC) ;

@@ -72,7 +72,7 @@ int main(int argc, char **argv){
 	if(header->type == TYPE_READ)
 	    parseReadPacket(header_buf);
 	else if(header->type == TYPE_REF){
-	    printf("Received ref packet\n\n\n") ;
+	    printf("Received ref packet\n") ;
 	    parseRefPacket(header_buf);
 	} else
 	    continue ;
