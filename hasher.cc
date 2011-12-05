@@ -128,8 +128,8 @@ int main(int argc, char **argv){
   init_sender(argv[2]) ;
 
   //This loads FILE to MEMORY ARRAY...'fileMap'
-//  loadFileToMMap((unsigned char *)argv[1]);
-  loadFullFile(argv[1]);
+  loadFileToMMap((unsigned char *)argv[1]);
+//  loadFullFile(argv[1]);
   readFile(argv[1]);
   return 0;
 }
