@@ -39,3 +39,5 @@ for 106KB file
 350311 packets received at router
 340611 packets received at indexers
 
+231917 packets received - Mmap (almost same time)
+261027 packets received - removed src mac from ethernet header

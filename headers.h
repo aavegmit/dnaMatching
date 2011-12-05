@@ -83,7 +83,7 @@ struct sniff_ethernet {
 
 struct frame {
     u_char  ether_dhost[ETHER_ADDR_LEN];    /* destination host address */
-    u_char  ether_shost[ETHER_ADDR_LEN];    /* source host address */
+//    u_char  ether_shost[ETHER_ADDR_LEN];    /* source host address */
     u_short ether_type;                     /* IP? ARP? RARP? etc */
     u_char type ;	// 0x4e - packet type for content based routing
 };
