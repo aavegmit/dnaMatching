@@ -71,10 +71,6 @@ int main(int argc, char **argv){
 	header = (struct frame *)(header_buf);
 	++counter ;
 
-    counter++;
-    printf("Packet recvd: %d\r", counter);
-    fflush(stdout);
-
 	if(header->type == TYPE_READ)
 	    parseReadPacket(header_buf);
 	else if(header->type == TYPE_REF){
