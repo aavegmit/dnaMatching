@@ -5,7 +5,7 @@ unsigned char *fileMap;
 
 void loadFullFile(char *fileName){
   long size =5*1024* 1024;
-  fileMap = (unsigned char *)malloc(size);
+  fileMap = (unsigned char *)malloc(size);//new unsigned char(size);
   fstream fp(fileName, ios::in | ios::binary);
   memset(fileMap, '\0', sizeof(fileMap));
   fp.read((char *)fileMap, size);
