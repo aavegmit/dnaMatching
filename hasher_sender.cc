@@ -56,15 +56,21 @@ void init_sender(char *interface){
 
 void sendRefSeq(bitset<SUBSEQ_SIZE> bits, uint32_t offset, string chrome){
     struct content_ref content ;
+    static int counter = 0 ;
     content.subseq = bits ;
     content.offset = offset ;
     strncpy(content.chr, chrome.c_str(), sizeof(content.chr)) ;
 
     memcpy(&ref_buffer[sizeof(struct frame)], &content, sizeof(content)) ;
 
+    ++counter ;
     // Send the content
     if(write(sock,ref_buffer,sizeof(struct frame) + sizeof(struct content_ref)) < 0){
 	perror("sendto");
     }
+//    for(int i = 0 ; i < 10000 ; ++i) ;
+	
+    printf("\rSent: %d", counter) ;
+    fflush(stdout) ;
 }
 

@@ -38,6 +38,7 @@ int main(int argc, char **argv){
     struct ifreq ethreq;
     struct frame *header ;
     unsigned char *header_buf ;
+    int counter = 0 ;
 
     if(argc < 2){
 	printf("Usage: ./indexer <interface_name>\n");
@@ -68,11 +69,13 @@ int main(int argc, char **argv){
 	}
 
 	header = (struct frame *)(header_buf);
+	++counter ;
 
 	if(header->type == TYPE_READ)
 	    parseReadPacket(header_buf);
 	else if(header->type == TYPE_REF){
-	    printf("Received ref packet\n") ;
+	    printf("\rReceived: %d", counter) ;
+	    fflush(stdout) ;
 	    parseRefPacket(header_buf);
 	} else
 	    continue ;

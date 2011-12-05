@@ -79,7 +79,7 @@ void parseRefPacket(unsigned char *buffer){
     for(int i = KEY_SIZE-1;i>=0;i--){
         key[i] = data->subseq[(subseq_length-1)-((KEY_SIZE-1)-i)];
     }
-    cout << "Key is: " << key.to_string() << endl;
+//    cout << "Key is: " << key.to_string() << endl;
 
     //int value_length = subseq_length - KEY_SIZE;
 

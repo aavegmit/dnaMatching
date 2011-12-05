@@ -1,4 +1,7 @@
-[A] receive the src mac address as well
+[A] remove the src mac address as well
+Improve the hasher - load the file into memory
+Bug where all the laod is going to 'A' indexer
+
 
 Router recieves a packet
 It may contain either a read query or a reference (7 bytes)
@@ -10,4 +13,29 @@ Reference Query
 ---------------
 
 type | Reference sub sequence | Ref offset | Ref ID
+
+
+
+
+Stats
+=====
+
+Hasher
+------
+##################
+for 100 KB file
+738052 packets sent
+In 63.1 sec
+11696.54 pkts/s  - with printf
+
+Implies, for 240 MB file
+It'll take around 43.07 hrs
+###################
+
+
+#################
+for 106KB file
+738052 packets sent
+350311 packets received at router
+340611 packets received at indexers
 

@@ -44,7 +44,7 @@ void generateSubSequence(string str, long offset, string refId){
       if(slides[i][j] == '1')
 	subStr += str[j];
     }
-    cout << subStr << endl ;
+//    cout << subStr << endl ;
     sendRefSeq(getBitString(subStr), offset, refId) ;
   }
 }
@@ -87,12 +87,12 @@ int readFile(char *fileName){
     fp.read(buf1, 1);
     if(buf1[0] != '\n'){
      offset = fp.tellg();
-     string str1(buf1);
+     string str1(1, buf1[0]);
      str = str.substr(1) + str1;
      foffset++;
      if(foffset == lastEndLine)
 	 foffset++;
-     //     cout << foffset << " " << str << " " << chrom << endl;
+//          cout << foffset << " " << str << " " << chrom << endl;
      generateSubSequence(str, offset, chrom) ;
     }else{
       lastEndLine = offset;
@@ -109,7 +109,7 @@ int readFile(char *fileName){
         string str2(bufL);
         str = str2;
         if(str.length() == 50)
-	    //          cout << foffset << " " << str << " " << chrom << endl;
+//	              cout << foffset << " " << str << " " << chrom << endl;
 	    generateSubSequence(str, offset, chrom) ;
 	continue;
       }else if(tmp[0] == 'c' || tmp[0] == 'C' || tmp[0] == 'G' || tmp[0] == 'g' ||

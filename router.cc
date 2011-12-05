@@ -65,27 +65,6 @@ int main(int argc, char **argv){
 	}
     }
 
-    /* set to promiscuous mode */
-    strcpy(ethreq.ifr_name,INTERFACE_0);
-    ioctl(sock[0], SIOCGIFFLAGS, &ethreq);
-    ethreq.ifr_flags |= IFF_PROMISC;
-    ioctl(sock[0], SIOCSIFFLAGS, &ethreq);
-
-    strcpy(ethreq.ifr_name,INTERFACE_1);
-    ioctl(sock[1], SIOCGIFFLAGS, &ethreq);
-    ethreq.ifr_flags |= IFF_PROMISC;
-    ioctl(sock[1], SIOCSIFFLAGS, &ethreq);
-
-    strcpy(ethreq.ifr_name,INTERFACE_2);
-    ioctl(sock[2], SIOCGIFFLAGS, &ethreq);
-    ethreq.ifr_flags |= IFF_PROMISC;
-    ioctl(sock[2], SIOCSIFFLAGS, &ethreq);
-
-    strcpy(ethreq.ifr_name,INTERFACE_3);
-    ioctl(sock[3], SIOCGIFFLAGS, &ethreq);
-    ethreq.ifr_flags |= IFF_PROMISC;
-    ioctl(sock[3], SIOCSIFFLAGS, &ethreq);
-
     // Bind interfaces
     BindRawSocketToInterface(RTR_HASHER_INTERFACE, hash_sock[0], ETH_P_ALL);
     BindRawSocketToInterface(INTERFACE_0, sock[0], ETH_P_ALL);
@@ -186,7 +165,7 @@ void *sniffer(void *arg){
         if(write(tempsock,header_buf,length) < 0){
             perror("sendto");
         }
-	printf("A: %d, G: %d, T: %d, C: %d\r", countA, countG, countT, countC) ;
+	printf("A: %d, G: %d, T: %d, C: %d, Total: %d\r", countA, countG, countT, countC, (countA+countG+countT+countC)) ;
 	fflush(stdout) ;
     }
 } 
