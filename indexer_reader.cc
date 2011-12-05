@@ -38,6 +38,7 @@ int main(int argc, char **argv){
     struct ifreq ethreq;
     struct frame *header ;
     unsigned char *header_buf ;
+    int counter = 0 ;
 
     if(argc < 2){
 	printf("Usage: ./indexer <interface_name>\n");
@@ -58,7 +59,6 @@ int main(int argc, char **argv){
 
     header_buf = (unsigned char*)malloc(header_len); 
 
-    int counter = 0;
     while(1){
 
 	length = read(s, header_buf, header_len );
@@ -69,6 +69,7 @@ int main(int argc, char **argv){
 	}
 
 	header = (struct frame *)(header_buf);
+	++counter ;
 
     counter++;
     printf("Packet recvd: %d\r", counter);
@@ -77,7 +78,8 @@ int main(int argc, char **argv){
 	if(header->type == TYPE_READ)
 	    parseReadPacket(header_buf);
 	else if(header->type == TYPE_REF){
-	    //printf("Received ref packet\n\n\n") ;
+	    printf("\rReceived: %d", counter) ;
+	    fflush(stdout) ;
 	    parseRefPacket(header_buf);
 	} else
 	    continue ;

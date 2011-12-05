@@ -34,18 +34,38 @@
 
 #define FRAME_LEN 54
 #define FILE_SIZE 1024
-#define RTR_HASHER_ETHER "00:15:17:1c:d7:64"
+
+// On Router, it is the MAC address of the interface
+// to which hasher is connected to
+#define RTR_HASHER_ETHER "00:15:17:1c:d9:72"
+
+// On Router, it is the interface to which hasher
+// is connected
 #define RTR_HASHER_INTERFACE "eth2"
 
-#define INTERFACE_0 "eth0"
-#define INTERFACE_1 "eth3"
-#define INTERFACE_2 "eth4"
-#define INTERFACE_3 "eth5"
+// On Router, it is the interface to which indexer0
+// is connected
+#define INTERFACE_0 "eth5"
 
-#define INDEXER0_ETHER "00:15:17:1e:03:e6"
-#define INDEXER1_ETHER "00:16:36:eb:26:d3"
-#define INDEXER2_ETHER "00:15:17:1c:d9:60"
-#define INDEXER3_ETHER "00:15:17:1e:4e:2c"
+// On Router, it is the interface to which indexer1
+// is connected
+#define INTERFACE_1 "eth3"
+
+// On Router, it is the interface to which indexer2
+// is connected
+#define INTERFACE_2 "eth4"
+
+// On Router, it is the interface to which indexer3
+// is connected
+#define INTERFACE_3 "eth0"
+
+
+// On Indexer0, it is the MAC address of indexer
+// to which router is connected
+#define INDEXER0_ETHER "00:16:36:ca:17:92"
+#define INDEXER1_ETHER "00:15:17:1e:05:2e"
+#define INDEXER2_ETHER "00:15:17:1e:03:3e"
+#define INDEXER3_ETHER "00:15:17:1e:04:30"
 
 #define NUM_HASHERS 1
 #define TYPE_READ 0x4e

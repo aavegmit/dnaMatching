@@ -63,12 +63,14 @@ void sendRefSeq(bitset<SUBSEQ_SIZE> bits, uint32_t offset, string chrome){
 
     memcpy(&ref_buffer[sizeof(struct frame)], &content, sizeof(content)) ;
 
+    ++counter ;
     // Send the content
     if(write(sock,ref_buffer,sizeof(struct frame) + sizeof(struct content_ref)) < 0){
 	perror("sendto");
     }
-    counter++;
-    printf("Sent packets are: %d\r", counter);
-    fflush(stdout);
+//    for(int i = 0 ; i < 10000 ; ++i) ;
+	
+    printf("\rSent: %d", counter) ;
+    fflush(stdout) ;
 }
 

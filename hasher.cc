@@ -45,8 +45,7 @@ void generateSubSequence(string str, long offset, string refId){
       if(slides[i][j] == '1')
 	subStr += str[j];
     }
-    cout << subStr << endl ;
-//    sendRefSeq(getBitString(subStr), offset, refId) ;
+    sendRefSeq(getBitString(subStr), offset, refId) ;
   }
 }
 

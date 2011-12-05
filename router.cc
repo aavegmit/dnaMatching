@@ -46,6 +46,7 @@ void CreateEthernetHeader(struct frame *header, char *dst_mac, int protocol)
 
 int main(int argc, char **argv){
     FILE *fp ;
+    struct ifreq ethreq;
     sock = (int *)malloc(4 * sizeof(int)) ;
     hash_sock = (int *)malloc(NUM_HASHERS * sizeof(int)) ;
 
@@ -161,10 +162,10 @@ void *sniffer(void *arg){
 	    ++countC ;
 	}
 
-        if(write(tempsock,header_buf,header_len) < 0){
+        if(write(tempsock,header_buf,length) < 0){
             perror("sendto");
         }
-	printf("A: %d, G: %d, T: %d, C: %d\r", countA, countG, countT, countC) ;
+	printf("A: %d, G: %d, T: %d, C: %d, Total: %d\r", countA, countG, countT, countC, (countA+countG+countT+countC)) ;
 	fflush(stdout) ;
     }
 } 
