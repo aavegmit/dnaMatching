@@ -3,7 +3,7 @@
 
 #include "headers.h"
 
-void loadFullFile(char *fileName);
+int loadFullFile(char *fileName);
 int loadMMapForFile(unsigned char[]);
 void loadFileToMMap(unsigned char[]);
 extern unsigned char *mapToFile;
